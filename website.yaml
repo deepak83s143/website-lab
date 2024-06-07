@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: website
-        image: mademitech:$BUILD_NUMBER
+        image: mademitech:ver.{{BUILD_NUMBER}}
         ports:
         - containerPort: 80
 ---
