@@ -22,7 +22,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mademi-service 
+  name: mademi-service
+  namespace: deepak
 spec:
   type: NodePort
   selector:
