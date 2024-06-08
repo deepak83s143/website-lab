@@ -15,14 +15,15 @@ spec:
     spec:
       containers:
       - name: website
-        image: mademitech:$BUILD_NUMBER
+        image: REGISTRY_SERVER:32000/website-image:ver.BUILD_NUMBER
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mademi-service 
+  name: mademi-service
+  namespace: deepak
 spec:
   type: NodePort
   selector:

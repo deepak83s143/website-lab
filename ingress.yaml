@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mademi-ingress
+  namespace: deepak
+spec:
+  tls:
+  - hosts:
+    - env_url
+    secretName: mademi
+  rules:
+  - host: env_url
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mademi-service
+            port:
+              number: 80
