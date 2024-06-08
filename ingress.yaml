@@ -7,7 +7,6 @@ spec:
   tls:
   - hosts:
     - env_url
-    secretName: mademi
   rules:
   - host: env_url
     http:
