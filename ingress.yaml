@@ -6,6 +6,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  tls:
+  - hosts:
+    - env_url
+    secretName: sec_name
   rules:
   - host: env_url
     http:
@@ -16,4 +20,4 @@ spec:
           service:
             name: mademi-service
             port:
-              number: 8080
+              number: 80

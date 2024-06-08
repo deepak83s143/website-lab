@@ -41,27 +41,31 @@ pipeline {
                         def buildNumber = env.BUILD_NUMBER
                         def registryServer = "10.201.19.10"
                         def envURL = "staging.mademitech.local"
+                        def secName = "staging"
                         sh "docker tag website-image:latest 10.201.19.10:32000/website-image:ver.${buildNumber}"
                         sh "sed 's/BUILD_NUMBER/${buildNumber}/' website.yaml > website1.yaml"
                         sh "sed 's/REGISTRY_SERVER/${registryServer}/' website1.yaml > website2.yaml"
-                        sh "sed 's/env_url/${envURL}/' ingress.yaml > ingress1.yaml"                       
+                        sh "sed 's/env_url/${envURL}/' ingress.yaml > ingress1.yaml"
+                        sh "sed 's/sec_name/${secName}/' ingress1.yaml > ingress2.yaml"                     
                         sh "echo '${buildNumber}'"
                         sh "scp website2.yaml ubuntu@10.201.19.10:~/website"
-                        sh "scp ingress1.yaml ubuntu@10.201.19.10:~/website"
+                        sh "scp ingress2.yaml ubuntu@10.201.19.10:~/website"
                         sh "docker push 10.201.19.10:32000/website-image:ver.${buildNumber}"    
                     } 
                     if (params.environment == 'prod') {
                         def buildNumber = env.BUILD_NUMBER
                         def registryServer = "10.201.18.116"
                         def envURL = "prod.mademitech.local"
+                        def secName = "prod"
                         sh "docker tag website-image:latest 10.201.18.116:32000/website-image:ver.${buildNumber}"
                         sh "sed 's/BUILD_NUMBER/${buildNumber}/' website.yaml > website1.yaml"
                         sh "sed 's/REGISTRY_SERVER/${registryServer}/' website1.yaml > website2.yaml"
                         sh "sed 's/env_url/${envURL}/' ingress.yaml > ingress1.yaml"
+                        sh "sed 's/sec_name/${secName}/' ingress1.yaml > ingress2.yaml"
                         sh "echo '${buildNumber}'"
                         sh "echo '${registryServer}'"
                         sh "scp website2.yaml ingress1.yaml ubuntu@10.201.18.116:~/website"
-                        sh "scp ingress1.yaml ubuntu@10.201.18.116:~/website"
+                        sh "scp ingress2.yaml ubuntu@10.201.18.116:~/website"
                         sh "docker push 10.201.18.116:32000/website-image:ver.${buildNumber}"
                     }
                 }
@@ -73,18 +77,18 @@ pipeline {
                     if (params.environment == 'staging') {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'MK8S_19.10', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /home/ubuntu/website
                 microk8s kubectl  delete -f website2.yaml
-                microk8s kubectl delete -f ingress1.yaml
+                microk8s kubectl delete -f ingress2.yaml
                 sleep 5
                 microk8s kubectl apply  -f website2.yaml
-                microk8s kubectl apply -f ingress1.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/home/ubuntu/website', remoteDirectorySDF: false, removePrefix: '/home/ubuntu/website', sourceFiles: '/home/ubuntu/website/website2.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                microk8s kubectl apply -f ingress2.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/home/ubuntu/website', remoteDirectorySDF: false, removePrefix: '/home/ubuntu/website', sourceFiles: '/home/ubuntu/website/website2.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                     } 
                     if (params.environment == 'prod') {
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'MK8S_18.116', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''cd /home/ubuntu/website
                 microk8s kubectl  delete -f website2.yaml
-                microk8s kubectl delete -f ingress1.yaml
+                microk8s kubectl delete -f ingress2.yaml
                 sleep 5
                 microk8s kubectl apply  -f website2.yaml
-                microk8s kubectl apply -f ingress1.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/home/ubuntu/website', remoteDirectorySDF: false, removePrefix: '/home/ubuntu/website', sourceFiles: '/home/ubuntu/website/website2.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                microk8s kubectl apply -f ingress2.yaml''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/home/ubuntu/website', remoteDirectorySDF: false, removePrefix: '/home/ubuntu/website', sourceFiles: '/home/ubuntu/website/website2.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                     }
                 }
             }
