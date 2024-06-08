@@ -46,7 +46,8 @@ pipeline {
                         sh "sed 's/REGISTRY_SERVER/${registryServer}/' website1.yaml > website2.yaml"
                         sh "sed 's/env_url/${envURL}/' ingress.yaml > ingress1.yaml"                       
                         sh "echo '${buildNumber}'"
-                        sh "scp website2.yaml ingress1.yaml ubuntu@10.201.19.10:~/website"
+                        sh "scp website2.yaml ubuntu@10.201.19.10:~/website"
+                        sh "scp ingress1.yaml ubuntu@10.201.19.10:~/website"
                         sh "docker push 10.201.19.10:32000/website-image:ver.${buildNumber}"    
                     } 
                     if (params.environment == 'prod') {
@@ -60,6 +61,7 @@ pipeline {
                         sh "echo '${buildNumber}'"
                         sh "echo '${registryServer}'"
                         sh "scp website2.yaml ingress1.yaml ubuntu@10.201.18.116:~/website"
+                        sh "scp ingress1.yaml ubuntu@10.201.18.116:~/website"
                         sh "docker push 10.201.18.116:32000/website-image:ver.${buildNumber}"
                     }
                 }
