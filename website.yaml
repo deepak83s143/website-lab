@@ -25,11 +25,11 @@ metadata:
   name: mademi-service
   namespace: deepak
 spec:
-  type: NodePort
+  #type: NodePort
   selector:
     app: website
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30443
+      #nodePort: 30443
