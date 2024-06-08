@@ -4,9 +4,6 @@ metadata:
   name: mademi-ingress
   namespace: deepak
 spec:
-  tls:
-  - hosts:
-    - env_url
   rules:
   - host: env_url
     http:
