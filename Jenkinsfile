@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'git@github.com:deepak83s143/website-lab.git'
+                //git 'git@github.com:deepak83s143/website-lab.git'
+                git branch: 'master', url: 'git@gitlab.skylus.local:operations-team/blue-green-dep.git'
             }
         }
         stage('Build') {
