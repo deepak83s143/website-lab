@@ -93,7 +93,7 @@ pipeline {
                 }
             }
         }
-        stage('Final Stage') {
+        stage('Final Stage.') {
             steps {
                 echo "Selected environment: ${params.environment}"
             }
