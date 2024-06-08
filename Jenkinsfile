@@ -103,7 +103,7 @@ pipeline {
                 """,
                 from: 'cloudoperations@netwebindia.com',
                 replyTo: '',
-                subject: "[${BUILD_STATUS}]${JOB_NAME} Build #${BUILD_NUMBER}",
+                subject: '[${BUILD_STATUS}]${JOB_NAME} Build #${BUILD_NUMBER}',
                 to: 'deepak.s@netwebindia.com'
                 )
             }
