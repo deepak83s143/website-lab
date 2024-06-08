@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: website
-        image: 10.201.19.10:32000/website-image:ver.BUILD_NUMBER
+        image: REGISTRY_SERVER:32000/website-image:ver.BUILD_NUMBER
         ports:
         - containerPort: 80
 ---
